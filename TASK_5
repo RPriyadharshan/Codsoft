@@ -1,0 +1,157 @@
+import java.io.*;
+import java.util.*;
+
+class Student implements Serializable {
+    private String name;
+    private int roll_Number;
+    private String grade;
+
+    public Student(String name, int roll_Number, String grade) {
+        this.name = name;
+        this.roll_Number = roll_Number;
+        this.grade = grade;
+    }
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public int getRoll_Number() {
+        return roll_Number;
+    }
+
+    public void setRoll_Number(int roll_Number) {
+        this.roll_Number = roll_Number;
+    }
+
+    public String getGrade() {
+        return grade;
+    }
+
+    public void setGrade(String grade) {
+        this.grade = grade;
+    }
+
+    public String toString() {
+        return "Name: " + name + ", Roll Number: " + roll_Number + ", Grade: " + grade;
+    }
+}
+
+class StudentManagementSystem {
+    private List<Student> students;
+
+    public StudentManagementSystem() {
+        students = new ArrayList<>();
+    }
+
+    public void addStudent(Student student) {
+        students.add(student);
+    }
+
+    public void removeStudent(int roll_Number) {
+        students.removeIf(student -> student.getRoll_Number() == roll_Number);
+    }
+
+    public Student searchStudent(int roll_Number) {
+        for (Student student : students) {
+            if (student.getRoll_Number() == roll_Number) {
+                return student;
+            }
+        }
+        return null;
+    }
+
+    public void displayAllStudents() {
+        for (Student student : students) {
+            System.out.println(student);
+        }
+    }
+
+    public void saveStudentsToFile(String fileName) {
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fileName))) {
+            oos.writeObject(students);
+            System.out.println("Students data saved to file: " + fileName);
+        } catch (IOException e) {
+            System.out.println("Error saving students data to file: " + e.getMessage());
+        }
+    }
+
+       public void loadStudentsFromFile(String fileName) {
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fileName))) {
+            students = (List<Student>) ois.readObject();
+            System.out.println("Students data loaded from file: " + fileName);
+        } catch (IOException | ClassNotFoundException e) {
+            System.out.println("Error loading students data from file: " + e.getMessage());
+        }
+    }
+}
+
+class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        StudentManagementSystem sms = new StudentManagementSystem();
+
+        while (true) {
+            System.out.println("\nStudent Management System");
+            System.out.println("1. Add Student");
+            System.out.println("2. Remove Student");
+            System.out.println("3. Search Student");
+            System.out.println("4. Display All Students");
+            System.out.println("5. Save Students Data to File");
+            System.out.println("6. Load Students Data from File");
+            System.out.println("7. Exit");
+            System.out.print("Enter your choice: ");
+            int choice = scanner.nextInt();
+
+            switch (choice) {
+                case 1:
+                    System.out.print("Enter student name: ");
+                    String name = scanner.next();
+                    System.out.print("Enter roll number: ");
+                    int roll_Number = scanner.nextInt();
+                    System.out.print("Enter grade: ");
+                    String grade = scanner.next();
+                    sms.addStudent(new Student(name, roll_Number, grade));
+                    break;
+                case 2:
+                    System.out.print("Enter roll number to remove student: ");
+                    int removeRoll_Number = scanner.nextInt();
+                    sms.removeStudent(removeRoll_Number);
+                    break;
+                case 3:
+                    System.out.print("Enter roll number to search student: ");
+                    int searchRoll_Number = scanner.nextInt();
+                    Student searchedStudent = sms.searchStudent(searchRoll_Number);
+                    if (searchedStudent != null) {
+                        System.out.println("Student found: " + searchedStudent);
+                    } else {
+                        System.out.println("Student not found.");
+                    }
+                    break;
+                case 4:
+                    sms.displayAllStudents();
+                    break;
+                case 5:
+                    System.out.print("Enter file name to save students data: ");
+                    String saveFileName = scanner.next();
+                    sms.saveStudentsToFile(saveFileName);
+                    break;
+                case 6:
+                    System.out.print("Enter file name to load students data: ");
+                    String loadFileName = scanner.next();
+                    sms.loadStudentsFromFile(loadFileName);
+                    break;
+                case 7:
+                    System.out.println("Exiting the application...");
+                    scanner.close();
+                    System.exit(0);
+                default:
+                    System.out.println("Invalid choice. Please enter a valid option.");
+            }
+        }
+    }
+}
+
