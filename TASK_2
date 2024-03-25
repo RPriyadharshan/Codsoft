@@ -1,52 +1,57 @@
 import java.util.*;
 class Main
 {
-    public static void main(String args[])
+    public static void main(String[]args)
     {
         Scanner o=new Scanner(System.in);
         System.out.println("Enter the number of subjects");
         int n=o.nextInt();
-        int [] s = new int [n];
+        int []s=new int[n];
         int tot=0;
         for(int i=0;i<n;i++)
         {
             s[i]=o.nextInt();
-            if(s[i]<0 || s[i]>100)
+            if(s[i]<0||s[i]>100)
             {
                 System.out.println("Invalid Input");
                 return;
             }
             tot+=s[i];
         }
-        System.out.println("Total Marks :  "+tot);
-        System.out.println("Average percentage is : "+(tot/n));
+        System.out.println("Total Marks: "+tot);
+        System.out.println("Average percentage is: "+
+        (tot/n));
         if(tot/n >= 90)
         {
-            System.out.println("Grade obtained is O ");
+            System.out.println("Grade obtained is O");
         }
-        else if(tot/n < 90 && tot/n >= 80)
+        else if(tot/n < 90 && tot/n >=80)
         {
-            System.out.println("Grade obtained is A+ ");
+            System.out.println("Grade obtained is A+");
         }
-        else if(tot/n < 80 && tot/n >= 70)
+        else if(tot/n < 80 && tot/n >=70)
         {
-            System.out.println("Grade obtained is A ");
+            System.out.println("Grade obtained is A");
         }
-        else if(tot/n < 70 && tot/n >= 60)
+        else if(tot/n < 80 && tot/n >=70)
         {
-            System.out.println("Grade obtained is B+ ");
+            System.out.println("Grade obtained is A");
         }
-        else if(tot/n < 60 && tot/n >= 50)
+        else if(tot/n < 70 && tot/n >=60)
         {
-            System.out.println("Grade obtained is B ");
+            System.out.println("Grade obtained is B+");
         }
-        else if(tot/n < 50 && tot/n >= 40)
+        else if(tot/n < 60 && tot/n >=50)
         {
-            System.out.println("Grade obtained is C ");
+            System.out.println("Grade obtained is B");
         }
-        else 
+        else if(tot/n < 50 && tot/n >=40)
         {
-            System.out.println("Grade obtained is F ");
+            System.out.println("Grade obtained is C");
+        }
+        else
+        {
+            System.out.println("Grade obtained is F");
         }
     }
 }
